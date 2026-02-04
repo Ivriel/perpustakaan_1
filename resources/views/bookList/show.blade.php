@@ -4,8 +4,8 @@
             <a href="{{ url()->previous() }}"
                 class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+                    </path>
                 </svg>
             </a>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -20,7 +20,7 @@
                 <div class="md:flex">
                     <div class="md:w-1/3 bg-gray-100 dark:bg-gray-900 p-8 flex justify-center items-start">
                         <div class="sticky top-8 w-full">
-                            @if($book->image)
+                            @if ($book->image)
                                 <img src="{{ asset('storage/' . $book->image) }}" alt="{{ $book->judul }}"
                                     class="w-full rounded-lg shadow-lg object-cover border-4 border-white dark:border-gray-700">
                             @else
@@ -99,7 +99,7 @@
                         </div>
 
                         <div class="flex flex-col sm:flex-row gap-4">
-                            <button
+                            <a href="{{ route('transactions.create', $book->id) }}"
                                 class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-bold rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors shadow-lg">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -107,7 +107,7 @@
                                     </path>
                                 </svg>
                                 Pinjam Buku Sekarang
-                            </button>
+                            </a>
 
                             <a href="{{ route('bookList.index') }}"
                                 class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600">

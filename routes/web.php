@@ -4,6 +4,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookListController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,6 +20,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('books', BookController::class);
     Route::get('bookList', [BookListController::class, 'index'])->name('bookList.index');
     Route::get('bookList/{id}', [BookListController::class, 'show'])->name('bookList.show');
+    Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::get('transactions/create/{id}', [TransactionController::class, 'create'])->name('transactions.create');
+    Route::get('transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
+    Route::post('transactions', [TransactionController::class, 'store'])->name('transactions.store');
+    Route::post('transactions/{transaction}/return', [TransactionController::class, 'returnBook'])->name('transactions.returnBook');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
