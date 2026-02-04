@@ -64,8 +64,12 @@
                                                 class="text-amber-600 hover:text-amber-900 dark:text-amber-400 dark:hover:text-amber-300 font-semibold">
                                                 Edit
                                             </a>
+                                            <a href="{{ route('books.show', $book->id) }}"
+                                                class="text-green-600 hover:text-green-600 dark:text-green-400 dark:hover:text-green-300 font-semibold">
+                                                Detail
+                                            </a>
                                             <form action="{{ route('books.destroy', $book->id) }}" method="POST"
-                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus buku ini?')">
+                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus buku {{ $book->judul }}?')">
                                                 @csrf @method('DELETE')
                                                 <button type="submit"
                                                     class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 font-semibold">
