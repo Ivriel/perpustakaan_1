@@ -11,7 +11,7 @@ class Book extends Model
     protected $guarded = ['id'];
 
     //  Buku ke Kategori (Many to Many via pivot book_category_relations)
-    public function category(): BelongsToMany
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'book_category_relations', 'book_id', 'category_id');
     }
