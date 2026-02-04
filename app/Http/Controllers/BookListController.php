@@ -8,7 +8,8 @@ class BookListController extends Controller
 {
     public function index()
     {
-        $data = Book::with('categories');
+        // Ambil semua buku sebagai koleksi Eloquent, bukan query builder/array
+        $data = Book::with('categories')->get();
 
         return view('bookList.index', [
             'bookList' => $data,

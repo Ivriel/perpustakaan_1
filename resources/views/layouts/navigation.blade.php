@@ -23,6 +23,10 @@
                     <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
                         {{ __('Book') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('bookList.index')" :active="request()->routeIs('bookList.*')">
+                        {{ __('Book List') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -92,6 +96,10 @@
 
             <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
                 {{ __('Book') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('bookList.index')" :active="request()->routeIs('bookList.*')">
+                {{ __('Book List') }}
             </x-responsive-nav-link>
         </div>
 
