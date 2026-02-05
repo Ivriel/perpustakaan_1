@@ -156,9 +156,221 @@
                                 Kembali ke Katalog
                             </a>
                         </div>
+
+                        {{-- Section Ulasan/Review --}}
+                        <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-8">
+                            <div class="mb-6">
+                                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Ulasan</h2>
+
+                                {{-- Ringkasan Rating --}}
+                                @if($book->review->count() > 0)
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="flex items-center">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                @if($i <= floor($averageRating))
+                                                    <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path
+                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                                        </path>
+                                                    </svg>
+                                                @elseif($i - 0.5 <= $averageRating)
+                                                    <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                        <defs>
+                                                            <linearGradient id="half-{{ $i }}">
+                                                                <stop offset="50%" stop-color="currentColor" />
+                                                                <stop offset="50%" stop-color="transparent" stop-opacity="1" />
+                                                            </linearGradient>
+                                                        </defs>
+                                                        <path fill="url(#half-{{ $i }})"
+                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                                        </path>
+                                                    </svg>
+                                                @else
+                                                    <svg class="w-6 h-6 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path
+                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                                        </path>
+                                                    </svg>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                        <span class="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                                            {{ $averageRating }} dari 5.0
+                                        </span>
+                                        <span class="text-sm text-gray-500 dark:text-gray-400">
+                                            ({{ $book->review->count() }}
+                                            {{ $book->review->count() == 1 ? 'ulasan' : 'ulasan' }})
+                                        </span>
+                                    </div>
+                                @else
+                                    <p class="text-gray-500 dark:text-gray-400 mb-4">Belum ada ulasan untuk buku ini.</p>
+                                @endif
+                            </div>
+
+                            {{-- Form Tulis/Edit Ulasan --}}
+                            @auth
+                                @if($userReview)
+                                    {{-- Jika user sudah pernah review, tampilkan form edit --}}
+                                    <div
+                                        class="mb-8 p-6 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800">
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Ulasan Anda</h3>
+                                        <form action="{{ route('reviews.update', $userReview->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <div class="mb-4">
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                    Rating
+                                                </label>
+                                                <select name="rating" required
+                                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white">
+                                                    <option value="1" {{ $userReview->rating == 1 ? 'selected' : '' }}>1 - Sangat
+                                                        Buruk</option>
+                                                    <option value="2" {{ $userReview->rating == 2 ? 'selected' : '' }}>2 - Buruk
+                                                    </option>
+                                                    <option value="3" {{ $userReview->rating == 3 ? 'selected' : '' }}>3 - Biasa
+                                                    </option>
+                                                    <option value="4" {{ $userReview->rating == 4 ? 'selected' : '' }}>4 - Baik
+                                                    </option>
+                                                    <option value="5" {{ $userReview->rating == 5 ? 'selected' : '' }}>5 - Sangat
+                                                        Baik</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                    Ulasan
+                                                </label>
+                                                <textarea name="ulasan" rows="4" required
+                                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white">{{ $userReview->ulasan }}</textarea>
+                                            </div>
+
+                                            <div class="flex gap-3 flex-wrap">
+                                                <button type="submit"
+                                                    class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium">
+                                                    Perbarui Ulasan
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        {{-- Form hapus dipisah agar tidak nested --}}
+                                        <form action="{{ route('reviews.destroy', $userReview->id) }}" method="POST"
+                                            class="inline" onsubmit="return confirm('Hapus ulasan ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
+                                                Hapus Ulasan
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    {{-- Jika user belum pernah review, tampilkan form create --}}
+                                    <div
+                                        class="mb-8 p-6 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-700">
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Tulis Ulasan</h3>
+                                        <form action="{{ route('reviews.store') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="book_id" value="{{ $book->id }}">
+
+                                            <div class="mb-4">
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                    Rating
+                                                </label>
+                                                <select name="rating" required
+                                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white">
+                                                    <option value="">Pilih Rating</option>
+                                                    <option value="1">1 - Sangat Buruk</option>
+                                                    <option value="2">2 - Buruk</option>
+                                                    <option value="3">3 - Biasa</option>
+                                                    <option value="4">4 - Baik</option>
+                                                    <option value="5">5 - Sangat Baik</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                    Ulasan
+                                                </label>
+                                                <textarea name="ulasan" rows="4" required
+                                                    placeholder="Tulis ulasan Anda tentang buku ini..."
+                                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"></textarea>
+                                            </div>
+
+                                            <button type="submit"
+                                                class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium">
+                                                Kirim Ulasan
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
+                            @else
+                                {{-- Jika user belum login, tampilkan pesan --}}
+                                <div
+                                    class="mb-8 p-6 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                                    <p class="text-gray-700 dark:text-gray-300">
+                                        <a href="{{ route('login') }}"
+                                            class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">Login</a>
+                                        untuk menulis ulasan.
+                                    </p>
+                                </div>
+                            @endauth
+
+                            {{-- Daftar Ulasan dari Semua User --}}
+                            @if($book->review->count() > 0)
+                                <div class="space-y-6">
+                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Semua Ulasan</h3>
+                                    @foreach($book->review as $review)
+                                        <div
+                                            class="p-6 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-700">
+                                            <div class="flex items-start justify-between mb-3">
+                                                <div class="flex items-center gap-3">
+                                                    <div
+                                                        class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold">
+                                                        {{ strtoupper(substr($review->user->nama_lengkap ?? 'U', 0, 1)) }}
+                                                    </div>
+                                                    <div>
+                                                        <p class="font-semibold text-gray-900 dark:text-white">
+                                                            {{ $review->user->nama_lengkap ?? 'User' }}
+                                                        </p>
+                                                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                                                            {{ $review->created_at->translatedFormat('d F Y') }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center gap-1">
+                                                    @for($i = 1; $i <= 5; $i++)
+                                                        @if($i <= $review->rating)
+                                                            <svg class="w-5 h-5 text-yellow-400" fill="currentColor"
+                                                                viewBox="0 0 20 20">
+                                                                <path
+                                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                                                </path>
+                                                            </svg>
+                                                        @else
+                                                            <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path
+                                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                                                </path>
+                                                            </svg>
+                                                        @endif
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                                                {{ $review->ulasan }}
+                                            </p>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
+    </div>
+    </div>
     </div>
 </x-app-layout>

@@ -5,6 +5,7 @@ use App\Http\Controllers\BookListController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::get('transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
     Route::post('transactions', [TransactionController::class, 'store'])->name('transactions.store');
     Route::post('transactions/{transaction}/return', [TransactionController::class, 'returnBook'])->name('transactions.returnBook');
+    Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::put('reviews/{id}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
