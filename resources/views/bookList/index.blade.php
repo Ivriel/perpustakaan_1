@@ -10,6 +10,13 @@
         </div>
     </x-slot>
 
+    @if (session('success'))
+        <div class="text-green-500 text-center">{{ session('success') }}</div>
+    @endif
+    @if (session('error'))
+        <div class="text-red-500 text-center">{{ session('error') }}</div>
+    @endif
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -18,7 +25,7 @@
                         class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700 flex flex-col">
 
                         <div class="relative h-64 overflow-hidden bg-gray-200">
-                            @if($book->image)
+                            @if ($book->image)
                                 <img src="{{ asset('storage/' . $book->image) }}" alt="{{ $book->judul }}"
                                     class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
                             @else
@@ -58,6 +65,15 @@
                                     class="flex-1 inline-flex justify-center items-center px-3 py-2 text-sm font-medium text-center text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-500 dark:hover:bg-indigo-600">
                                     Pinjam
                                 </button>
+                                {{-- Form POST mengirim book_id ke route collections.store (isi table collection) --}}
+                                <form action="{{ route('collections.store') }}" method="POST" class="inline">
+                                    @csrf
+                                    <input type="hidden" name="book_id" value="{{ $book->id }}">
+                                    <button type="submit"
+                                        class="flex-1 inline-flex justify-center items-center px-3 py-2 text-sm font-medium text-center text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 dark:bg-emerald-500 dark:hover:bg-emerald-600">
+                                        Tambah ke Koleksi
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

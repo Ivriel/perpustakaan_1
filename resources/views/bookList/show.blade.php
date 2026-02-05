@@ -4,7 +4,8 @@
             <a href="{{ url()->previous() }}"
                 class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18">
                     </path>
                 </svg>
             </a>
@@ -13,6 +14,13 @@
             </h2>
         </div>
     </x-slot>
+
+    @if (session('success'))
+        <div class="text-green-500 text-center">{{ session('success') }}</div>
+    @endif
+    @if (session('error'))
+        <div class="text-red-500 text-center">{{ session('error') }}</div>
+    @endif
 
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
@@ -41,6 +49,20 @@
                             <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white mt-3 leading-tight">
                                 {{ $book->judul }}
                             </h1>
+                        </div>
+
+                        <div class="space-y-3 mb-4">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Kategori</h4>
+                            <div class="flex flex-wrap gap-2">
+                                @forelse($book->categories as $category)
+                                    <span
+                                        class="px-4 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-bold border border-indigo-100 dark:border-indigo-800">
+                                        {{ $category->name }}
+                                    </span>
+                                @empty
+                                    <span class="text-sm text-gray-500 italic">Tidak ada kategori</span>
+                                @endforelse
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -108,6 +130,16 @@
                                 </svg>
                                 Pinjam Buku Sekarang
                             </a>
+
+                            {{-- POST book_id ke collections.store untuk add to collection --}}
+                            <form action="{{ route('collections.store') }}" method="POST" class="inline">
+                                @csrf
+                                <input type="hidden" name="book_id" value="{{ $book->id }}">
+                                <button type="submit"
+                                    class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-emerald-600 text-base font-medium rounded-lg text-emerald-600 bg-white hover:bg-emerald-50 dark:bg-emerald-900/20 dark:text-emerald-400 dark:hover:bg-emerald-900/30">
+                                    Tambah ke Koleksi
+                                </button>
+                            </form>
 
                             <a href="{{ route('bookList.index') }}"
                                 class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600">

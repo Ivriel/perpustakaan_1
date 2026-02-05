@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookListController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class)->except('show');
     Route::resource('books', BookController::class);
+    Route::resource('collections', CollectionController::class)->except('create', 'edit', 'update');
     Route::get('bookList', [BookListController::class, 'index'])->name('bookList.index');
     Route::get('bookList/{id}', [BookListController::class, 'show'])->name('bookList.show');
     Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');
