@@ -8,6 +8,20 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
+    public function index()
+    {
+        $listReview = Review::with(['user', 'book'])->get();
+
+        return view('reviews.index', compact('listReview'));
+    }
+
+    public function show(string $id)
+    {
+        $review = Review::with(['user', 'book.categories'])->findOrFail($id);
+
+        return view('reviews.show', compact('review'));
+    }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([

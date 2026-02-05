@@ -35,6 +35,10 @@
                     <x-nav-link :href="route('collections.index')" :active="request()->routeIs('collections.*')">
                         {{ __('Collections') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('reviews.index')" :active="request()->routeIs('reviews.*')">
+                        {{ __('Reviews') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -118,6 +122,12 @@
             <x-responsive-nav-link :href="route('collections.index')" :active="request()->routeIs('collections.*')">
                 {{ __('Collections') }}
             </x-responsive-nav-link>
+
+
+            <x-responsive-nav-link :href="route('reviews.index')" :active="request()->routeIs('reviews.*')">
+                {{ __('Reviews') }}
+            </x-responsive-nav-link>
+
         </div>
 
         <!-- Responsive Settings Options -->
