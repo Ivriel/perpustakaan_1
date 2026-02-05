@@ -26,9 +26,9 @@
                                 class="bg-gray-50/80 dark:bg-gray-700/50 text-gray-500 dark:text-gray-400 uppercase text-[11px] tracking-widest font-bold">
                                 <th class="px-6 py-5 text-center">ID</th>
                                 <th class="px-6 py-5">Info Buku</th>
-                                <th class="px-6 py-5">Peminjam</th>
+                                <th class="px-6 py-5">Ditambahkan Oleh</th>
                                 <th class="px-6 py-5 text-center">Tahun</th>
-                                <th class="px-6 py-5">Ditambahkan</th>
+                                <th class="px-6 py-5">Ditambahkan Pada</th>
                                 <th class="px-8 py-5 text-center text-blue-600">Aksi</th>
                             </tr>
                         </thead>
@@ -78,7 +78,7 @@
                                         <div class="text-[11px] font-medium text-gray-500 dark:text-gray-400">
                                             {{ $collection->created_at->translatedFormat('d M Y') }}
                                             <span
-                                                class="block text-[9px] opacity-70">{{ $collection->created_at->format('H:i') }}
+                                                class="block text-[9px] opacity-70">{{ $collection->created_at->format('H:i:s') }}
                                                 WIB</span>
                                         </div>
                                     </td>

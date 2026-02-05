@@ -19,6 +19,7 @@ class BookListController extends Controller
     public function show(string $id)
     {
         $book = Book::with('categories')->findOrFail($id);
+        $book->loadCount(['collection as collectors_count']);
 
         return view('bookList.show', [
             'book' => $book,

@@ -94,6 +94,16 @@
                             <div class="space-y-1">
                                 <p
                                     class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Jumlah Kolektor
+                                </p>
+                                <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                                    {{ $book->collectors_count ?? 0 }} orang
+                                </p>
+                            </div>
+
+                            <div class="space-y-1">
+                                <p
+                                    class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                     Ditambahkan Pada</p>
                                 <p class="text-md text-gray-800 dark:text-gray-200">
                                     {{ $book->created_at ? $book->created_at->format('d M Y H:m:s') : '-' }} WIB
