@@ -20,7 +20,12 @@ class RoleMiddleware
         }
 
         $user = auth()->guard()->user();
-        if (in_array($user->role, $roles)) {
+
+        if (! $user || ! isset($user->role)) {
+            abort(403, 'Role tidak ditemukan');
+        }
+
+        if (in_array($user->role, $roles, true)) {
             return $next($request);
         }
 

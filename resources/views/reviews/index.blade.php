@@ -5,7 +5,8 @@
                 {{ __('Daftar Reviews') }}
             </h2>
 
-            <a href="{{ route('books.index') }}" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
+            <a href="{{ route('bookList.index') }}"
+                class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
                 &larr; Kembali ke Daftar Buku
             </a>
         </div>

@@ -27,6 +27,11 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        $user = Auth::user();
+
+        if ($user->role === 'pengunjung') {
+            return redirect()->intended(route('bookList.index', absolute: false));
+        }
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

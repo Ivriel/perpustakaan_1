@@ -12,18 +12,20 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'petugas')
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                        {{ __('Category') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
+                            {{ __('Category') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
-                        {{ __('Book') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
+                            {{ __('Book') }}
+                        </x-nav-link>
 
+                    @endif
                     <x-nav-link :href="route('bookList.index')" :active="request()->routeIs('bookList.*')">
                         {{ __('Book List') }}
                     </x-nav-link>
@@ -102,13 +104,15 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                {{ __('Category') }}
-            </x-responsive-nav-link>
+            @if (auth()->user()->role === 'admin' || auth()->user()->role === 'petugas')
+                <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
+                    {{ __('Category') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
-                {{ __('Book') }}
-            </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
+                    {{ __('Book') }}
+                </x-responsive-nav-link>
+            @endif
 
             <x-responsive-nav-link :href="route('bookList.index')" :active="request()->routeIs('bookList.*')">
                 {{ __('Book List') }}

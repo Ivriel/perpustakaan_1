@@ -18,8 +18,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::resource('categories', CategoryController::class)->except('show');
-    Route::resource('books', BookController::class);
+    Route::resource('categories', CategoryController::class)->except('show')->middleware('role:admin,petugas');
+    Route::resource('books', BookController::class)->middleware('role:admin,petugas');
     Route::resource('collections', CollectionController::class)->except('create', 'edit', 'update');
     Route::get('bookList', [BookListController::class, 'index'])->name('bookList.index');
     Route::get('bookList/{id}', [BookListController::class, 'show'])->name('bookList.show');
