@@ -272,7 +272,7 @@
                 </td>
                 <td>
                     <div style="margin-bottom: 10px;">Disetujui Oleh,</div>
-                    <div class="sig-line"><strong>Administrator / Petugas</strong></div>
+                    <div class="sig-line"><strong>Petugas</strong></div>
                     <div style="font-size: 11px;">Stempel Perpustakaan</div>
                 </td>
             </tr>
