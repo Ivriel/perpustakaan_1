@@ -61,10 +61,10 @@
                                     class="flex-1 inline-flex justify-center items-center px-3 py-2 text-sm font-medium text-center text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600">
                                     Detail
                                 </a>
-                                <button type="button"
+                                <a href="{{ route('transactions.create', $book->id) }}"
                                     class="flex-1 inline-flex justify-center items-center px-3 py-2 text-sm font-medium text-center text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-500 dark:hover:bg-indigo-600">
                                     Pinjam
-                                </button>
+                                </a>
                                 {{-- Form POST mengirim book_id ke route collections.store (isi table collection) --}}
                                 <form action="{{ route('collections.store') }}" method="POST" class="inline">
                                     @csrf

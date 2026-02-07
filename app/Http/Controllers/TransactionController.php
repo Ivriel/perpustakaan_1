@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Transaction;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -79,5 +80,19 @@ class TransactionController extends Controller
         return view('transactions.create', [
             'book' => $book,
         ]);
+    }
+
+    public function printReceipt($id)
+    {
+        $transaction = Transaction::with(['user', 'book.categories'])->findOrFail($id);
+        $data = [
+            'transaction' => $transaction,
+            'tanggal_dicetak' => now()->format('d/m/Y H:i:s'),
+        ];
+
+        $pdf = Pdf::loadView('transactions.receipt', $data);
+        $pdf->setPaper([0, 0, 600, 800], 'portrait');
+
+        return $pdf->stream('bukti-peminjaman-#'.$transaction->id.'.pdf');
     }
 }

@@ -93,6 +93,12 @@
                                                 Detail
                                             </a>
 
+                                            {{-- Tombol print receipt --}}
+                                            <a href="{{ route('transaction.print', $transaction->id) }}" target="_blank"
+                                                class="text-purple-600 hover:text-purple-800 text-xs font-semibold">
+                                                Print
+                                            </a>
+
                                             {{-- Form untuk mengembalikan buku:
                                             hanya tampil jika:
                                             - status masih "dipinjam"
