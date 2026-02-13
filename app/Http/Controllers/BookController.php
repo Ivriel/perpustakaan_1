@@ -95,14 +95,14 @@ class BookController extends Controller
             'tahun_terbit' => 'required|numeric',
         ]);
 
-        $data = $request->only(['judul', 'penulis', 'penerbit', 'tahun_terbit']);
+        $data = collect($validatedData)->only(['judul', 'penulis', 'penerbit', 'tahun_terbit']);
         if ($request->hasFile('image')) {
             if ($book->image) {
                 Storage::disk('public')->delete($book->image);
             }
             $data['image'] = $request->file('image')->store('books', 'public');
         }
-        $book->update($data);
+        $book->update($data->toArray());
         $book->categories()->sync($request->input('categories', []));
 
         return redirect()->route('books.index')->with('success', 'Buku berhasil diupdate');
